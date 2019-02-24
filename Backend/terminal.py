@@ -2,7 +2,38 @@
 import json
 import socket
 
+"""
+    CreateTerminal(name,ipaddress,password) : Crée un terminal
+            =====> Retourne
+                    -3 :  Ip invalide
+                    -2 :  Ip existante
+                    -1 :  Nom existant
 
+    DeleteTerminal(name) : Supprime un terminal
+            =====> Retourne
+                    -1 : Nom inexistant
+                    0  : Supprimé avec succès
+
+    getTerminalByName(name) : Retourne un objet de type terminal sous la forme:
+            {
+                'name':nom,
+                'ip' : @ip,
+                'pwd': mdp
+            }
+            retourne -1 si le nom est inexistant
+
+    getTerminalByIp(ipaddress)
+            =====> Retourne
+                -3 : ipaddress invalide
+                -1 : ipaddress inexistante
+                objet : s'il est trouvé.... sous la forme :
+                {
+                    'name':nom,
+                    'ip' : @ip,
+                    'pwd': mdp
+                }
+
+"""
 class Terminal:
     ALL_TERMINALS=[]
     FILE_NAME="terminaux.json"
@@ -54,7 +85,7 @@ class Terminal:
         with open(Terminal.FILE_NAME,"w") as f:
             f.write(json.dumps(Terminal.ALL_TERMINALS))
 
-    def deleteTerminal(name):
+    def DeleteTerminal(name):
         """
             returns
                 -1 : terminal name inexistant
