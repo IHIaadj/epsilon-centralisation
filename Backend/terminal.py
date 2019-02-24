@@ -30,19 +30,14 @@ class Terminal:
             if Terminal.ALL_TERMINALS[i]["name"].lower()==name.lower():
                 return -1
 
-        return Terminal(name,ipaddress,password)
-
-    def __init__(self,name,ipaddress,password):
-        self.name=name
-        self.ip=ipaddress
-        self.pwd=password
         entry = {
-                    "name":self.name,
-                    "ip":self.ip,
-                    "pwd":self.pwd
+                    "name":name,
+                    "ip":ipaddress,
+                    "pwd":password
                 }
         Terminal.ALL_TERMINALS.append(entry)
         Terminal.save_all_terminals()
+        return entry
 
 
     def load_all_terminals(): #json file .json input
@@ -70,4 +65,32 @@ class Terminal:
                 del Terminal.ALL_TERMINALS[i]
                 Terminal.save_all_terminals()
                 return 0
+        return -1
+
+    def getTerminalByName(name):
+        """
+            returns
+                -1 : terminal name inexistant
+                objet termianl : le terminal existe
+        """
+        for i in range(len(Terminal.ALL_TERMINALS)):
+            if Terminal.ALL_TERMINALS[i]["name"].lower()==name.lower():
+                return Terminal.ALL_TERMINALS[i]
+        return -1
+
+    def getTerminalByIp(ip):
+        """
+            returns
+                -3 : ip invalide
+                -1 : ip inexistante
+                objet terminal : le terminal existe
+        """
+        try:
+            socket.inet_aton(ip)
+        except socket.error:
+            return -3
+
+        for i in range(len(Terminal.ALL_TERMINALS)):
+            if Terminal.ALL_TERMINALS[i]["ip"].lower()==ip.lower():
+                return Terminal.ALL_TERMINALS[i]
         return -1
