@@ -32,7 +32,9 @@ import socket
                     'ip' : @ip,
                     'pwd': mdp
                 }
-
+    getIpsList():
+            =====> Retourne
+                la liste des adresses Ip
 """
 class Terminal:
     ALL_TERMINALS=[]
@@ -56,7 +58,7 @@ class Terminal:
         except socket.error:
             return -3
         for i in range(len(Terminal.ALL_TERMINALS)):
-            if Terminal.ALL_TERMINALS[i]["ip"].lower()==ipaddress.lower():
+            if Terminal.ALL_TERMINALS[i]["ip"]==ipaddress:
                 return -2
             if Terminal.ALL_TERMINALS[i]["name"].lower()==name.lower():
                 return -1
@@ -122,6 +124,15 @@ class Terminal:
             return -3
 
         for i in range(len(Terminal.ALL_TERMINALS)):
-            if Terminal.ALL_TERMINALS[i]["ip"].lower()==ip.lower():
+            if Terminal.ALL_TERMINALS[i]["ip"]==ip:
                 return Terminal.ALL_TERMINALS[i]
         return -1
+
+    def getIpsList():
+        if(!Terminal.INITIALIZED):
+            Terminal.load_all_terminals()
+            Terminal.INITIALIZED=True
+        liste_ips=[]
+        for i in range(len(Terminal.ALL_TERMINALS)):
+            liste_ips.append(Terminal.ALL_TERMINALS[i]["ip"])
+        return liste_ips
