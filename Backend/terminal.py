@@ -1,0 +1,1 @@
+# Classe representant un terminal 
