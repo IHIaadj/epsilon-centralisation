@@ -1,4 +1,4 @@
-# Regrouper toutes les fonctions
+# Regrouper toutes les fonctions 
 import sys
 import os
 import subprocess
@@ -13,7 +13,7 @@ IP_TERMINALS = ["127.0.0.1"]
 USERNAME='root'
 ROOT_PASSWORD='0000'
 SSH_PORT='3122'
-PATH_TO_SCRIPTS="C:/Users/21366/Desktop/app centralisation/epsilon-centralisation/Scripts/"
+PATH_TO_SCRIPTS="/home/masci/Desktop/Scripts/"
 PATH_TO_LOCAL_REPO_FOLDER="/home/masci/Desktop/LocalRepo"
 PATH_TO_REMOTE_REPO_FOLDER="/root/Desktop/LocalRepo"
 # WINDOWS_SSH_SYNTAX=['c:\\Windows\\System32\\cmd.exe','/c ', 'plink',  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD, '-P' ,SSH_PORT,  '-m' ]
@@ -28,7 +28,7 @@ def getSshSyntax(ip,scriptFileName):
         #SSH_Syntax = ['sshpass', '-p', ROOT_PASSWORD, 'ssh', '-p', SSH_PORT, USERNAME+'@'+ip, "'bash -s'" ,'<']
         SSH_Syntax = ['sshpass', '-p', ROOT_PASSWORD, 'ssh', '-p', SSH_PORT, USERNAME+'@'+ip,commands]
     else:
-        SSH_Syntax = ['c:\\Windows\\System32\\cmd.exe','/c ', 'plink', '-P' ,SSH_PORT,  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD,commands ]
+        SSH_Syntax = ['c:\\Windows\\System32\\cmd.exe','/c ', 'plink',  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD, '-P' ,SSH_PORT,  '-m',commands ]
     return SSH_Syntax
 
 def getOsType():
@@ -49,7 +49,6 @@ def getDiskUsage(ip):
     print("Taille : " , out[1])
     print("Used : ", out[2])
     print( out[4], "%")
-    print(getSshSyntax(ip,'diskusage.sh'))
 
 
 def getRamUsage(ip):
@@ -121,19 +120,20 @@ def addPackageToLocalRepo(packageName): #works only on a debian host with the sa
     #print (path)
     os.system(' cd'+path)
    # out = subprocess.check_output(['ls',''])
-    out2 = subprocess.check_output(['apt-get download $(apt-rdepends '+packageName+' | grep -v "^ ")'])
+    out2 = subprocess.check_output(['apt-get download $(apt-rdepends < package >| grep -v "^ ")'])
     if not packageAlreadyExists:
         LOCAL_PACKAGES_LIST.append(packageName)
 
 
 
+    pass
 
-#removePackage("127.0.0.1","ssh")
+removePackage("127.0.0.1","ssh")
 
-getCpuUsage("127.0.0.1")
+#getCpuUsage("127.0.0.1")
 #getDiskUsage("127.0.0.1")
 #addPackageToLocalRepo("nautilus")
-#installPackageFromInternet("127.0.0.1","ssh")
+installPackageFromInternet("127.0.0.1","ssh")
 #INTERNET_STATUS = checkConnexion("127.0.0.1")
 
 
