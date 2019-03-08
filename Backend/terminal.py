@@ -97,7 +97,7 @@ class TerminalManager:
     ERREUR_NOM_EXISTANT=-1
     SUCCESS=0
 
-    def CreateGroup(group):
+    def CreateGroup(self,group):
         """
             returns:
                 ERREUR_GROUPE_EXISTANT : group exists
@@ -112,7 +112,7 @@ class TerminalManager:
             return TerminalManager.SUCCESS
         else :
             return TerminalManager.ERREUR_GROUPE_EXISTANT
-    def CreateTerminal(name,ipaddress,password,groupe):
+    def CreateTerminal(self,name,ipaddress,password,groupe):
         """
             returns:
                 ERREUR_GROUPE_INEXISTANT : groupe inexistant
@@ -148,7 +148,7 @@ class TerminalManager:
         return terminal
 
 
-    def load_all_terminals(): #json file .json input
+    def load_all_terminals(self): #json file .json input
         try:
             f=open(TerminalManager.FILE_NAME)
             toTransform=json.loads(f.read())
@@ -163,7 +163,7 @@ class TerminalManager:
 
         return TerminalManager.ALL_TERMINALS
 
-    def save_all_terminals():
+    def save_all_terminals(self):
         toSave={}
         for groupe in TerminalManager.ALL_TERMINALS:
             toSave[groupe]=[]
@@ -176,7 +176,7 @@ class TerminalManager:
         with open(TerminalManager.FILE_NAME,"w") as f:
             f.write(json.dumps(toSave))
 
-    def DeleteTerminal(name,groupe):
+    def DeleteTerminal(self,name,groupe):
         """
             returns
                 ERREUR_GROUPE_INEXISTANT : groupe inexistant
@@ -196,7 +196,7 @@ class TerminalManager:
                 return TerminalManager.SUCCESS
         return TerminalManager.ERREUR_NOM_INEXISTANT
 
-    def EditTerminal(name,groupe,newName,newIp,newPwd,newGroupe):
+    def EditTerminal(self,name,groupe,newName,newIp,newPwd,newGroupe):
         """
             returns
                 ERREUR_NOM_EXISTANT : le nom newName est existant
@@ -232,7 +232,7 @@ class TerminalManager:
                 return TerminalManager.SUCCESS
         return TerminalManager.ERREUR_NOM_INEXISTANT
 
-    def getTerminalByName(name,groupe):
+    def getTerminalByName(self,name,groupe):
         """
             returns
                 ERREUR_GROUPE_INEXISTANT : groupe inexistant
@@ -250,7 +250,7 @@ class TerminalManager:
                 return TerminalManager.ALL_TERMINALS[groupe][i]
         return TerminalManager.ERREUR_NOM_INEXISTANT
 
-    def getTerminalByIp(ip,groupe):
+    def getTerminalByIp(self,ip,groupe):
         """
             returns
                 ERREUR_GROUPE_INEXISTANT : groupe inexistant
@@ -278,7 +278,7 @@ class TerminalManager:
                 return TerminalManager.ALL_TERMINALS[groupe][i]
         return TerminalManager.ERREUR_IP_INEXISTANTE
 
-    def getIpsList(groupe):
+    def getIpsList(self,groupe):
         """
             returns
                 ERREUR_GROUPE_INEXISTANT : le groupe n'existe pas
@@ -294,13 +294,13 @@ class TerminalManager:
             liste_ips.append(TerminalManager.ALL_TERMINALS[groupe][i].getIp())
         return liste_ips
 
-    def getGroupesList():
+    def getGroupesList(self):
         if(not TerminalManager.INITIALIZED):
             TerminalManager.load_all_terminals()
 
         return list(TerminalManager.ALL_TERMINALS.keys())
 
-    def getAllIps():
+    def getAllIps(self):
         if(not TerminalManager.INITIALIZED):
             TerminalManager.load_all_terminals()
 

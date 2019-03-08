@@ -5,20 +5,25 @@ import subprocess
 import re
 import platform
 import shutil
+import json
+import socket
+from terminal import Terminal
+from terminal import TerminalManager
 
 ''' Just for the tests had les variables globales sinon machi plassethoum :p '''
-#INTERNET_STATUS = checkConnexion()
+
+terminalManager =TerminalManager()
+
 IP_TERMINALS = ["127.0.0.1"]
-#OS_TYPE= getOsType()
 USERNAME='root'
 ROOT_PASSWORD='0000'
 SSH_PORT='3122'
-PATH_TO_SCRIPTS="C:/Users/21366/Desktop/app centralisation/epsilon-centralisation/Scripts/"
+PATH_TO_SCRIPTS="/home/masci/Desktop/Scripts/"
 PATH_TO_LOCAL_REPO_FOLDER="/home/masci/Desktop/LocalRepo"
 PATH_TO_REMOTE_REPO_FOLDER="/root/Desktop/LocalRepo"
-# WINDOWS_SSH_SYNTAX=['c:\\Windows\\System32\\cmd.exe','/c ', 'plink',  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD, '-P' ,SSH_PORT,  '-m' ]
-# LINUX_SSH_SYNTAX=['sshpass', '-p', ROOT_PASSWORD, 'ssh', '-p', SSH_PORT, USERNAME+'@'+ip, 'bash -s' ,'<']
+BACKUPS_FOLDER="/home/masci/Desktop/bacdeb"
 LOCAL_PACKAGES_LIST=['vlc','openJDK','ila akhirihi']
+CONF_FILE='/home/masci/Desktop/conf.json'
 
 def getSshSyntax(ip,scriptFileName):
     OS_Type = getOsType()
@@ -126,20 +131,79 @@ def addPackageToLocalRepo(packageName): #works only on a debian host with the sa
         LOCAL_PACKAGES_LIST.append(packageName)
 
 
+def newBackup(ip,backupName):#works only on linux , rsync must be installed on both server and terminal
+    path = BACKUPS_FOLDER + '/' + backupName
+    packageAlreadyExists = os.path.exists(path)
+    if packageAlreadyExists:
+        shutil.rmtree(path)
+    try:
+        if not os.path.exists(BACKUPS_FOLDER):
+            os.mkdir(BACKUPS_FOLDER)
+
+        os.mkdir(path)
+    except OSError:
+        # print("Creation of the directory %s failed" % path)
+        pass
+    else:
+        pass
+
+    print('rsync', '-azAXv', '--delete','--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}' , '--rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'"',ip+':/',path)
+
+    #out = subprocess.check_output(['rsync', '-azAXvh', '--delete' ,'--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}' ,  '--rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+ip+':/',path])
+    out = subprocess.check_output('rsync '+ '-azAXv '+ '--delete '+'--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} ' + '--rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+ip+':/ '+path,shell=True)
+    print(out)
+    #os.system('rsync '+ '-azAXv '+ '--delete '+'--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} ' + '--rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+ip+':/ '+path)
+
+def restoreFromBackup(ip,backupName):
+    path = BACKUPS_FOLDER + '/' + backupName
+
+    print('rsync '+ '-azAXv '+ '--delete '+ '--rsh="sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+path+' '+ip+':/')
+    #out = subprocess.check_output(['rsync', '-azAXv '+ '--delete ' +'--progress ' + '--rsh="sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+backupFolderAndPath+' '+ip+':/'])
+    #out = subprocess.check_output(['rsync', '-azAXvh', '--delete' ,'--progress','--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"}',path ,  '--rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+ip+':/'])
+    out = subprocess.check_output('rsync '+ '-azAXvh '+ '--delete ' +'--exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} '+path +' --rsh='+'"sshpass -p '+ROOT_PASSWORD+' ssh -p '+SSH_PORT+' -o StrictHostKeyChecking=no -l '+ USERNAME+'" '+ip+':/',shell=True)
+    print(out)
+
+
+def start(): #charge la list des terminaux et les configuration de l'app
+    global USERNAME
+    global ROOT_PASSWORD
+    global SSH_PORT
+    terminalManager.load_all_terminals()
+    with open(CONF_FILE, "r") as read_file:
+        confDict=json.load(read_file)
+    USERNAME = confDict['USERNAME']
+    ROOT_PASSWORD = confDict['ROOT_PASSWORD']
+    SSH_PORT = confDict['SSH_PORT']
+
+def changeConf(rootUsername,rootPass,sshPort): #change les configuration de l'app
+    global USERNAME
+    global ROOT_PASSWORD
+    global SSH_PORT
+    USERNAME=rootUsername
+    ROOT_PASSWORD = rootPass
+    SSH_PORT = sshPort
+    confDict = {"ROOT_PASSWORD":ROOT_PASSWORD,"USERNAME":USERNAME,"SSH_PORT":SSH_PORT}
+    with open(CONF_FILE, "w") as write_file:
+        json.dump(confDict, write_file)
+
+
+
 
 
 #removePackage("127.0.0.1","ssh")
 
-getCpuUsage("127.0.0.1")
+#getCpuUsage("127.0.0.1")
 #getDiskUsage("127.0.0.1")
 #addPackageToLocalRepo("nautilus")
 #installPackageFromInternet("127.0.0.1","ssh")
 #INTERNET_STATUS = checkConnexion("127.0.0.1")
-
-
+#newBackup('127.0.0.1','bactroi')
+#restoreFromBackup('127.0.0.1','bacun')
+changeConf(USERNAME,ROOT_PASSWORD,SSH_PORT)
+start()
 
 #print(INTERNET_STATUS)
-#getDiskUsage("127.0.0.1")
+getDiskUsage("127.0.0.1")
 #getRamUsage()
 #getCpuUsage()
 
