@@ -7,18 +7,18 @@ import platform
 import shutil
 import json
 import socket
-from terminal import Terminal
-from terminal import TerminalManager
+from Backend.terminal import Terminal
+from Backend.terminal import TerminalManager
 
 ''' Just for the tests had les variables globales sinon machi plassethoum :p '''
 
 terminalManager =TerminalManager()
 
-IP_TERMINALS = ["127.0.0.1"]
+IP_TERMINALS = []
 USERNAME='root'
-ROOT_PASSWORD='0000'
-SSH_PORT='3122'
-PATH_TO_SCRIPTS="/home/masci/Desktop/Scripts/"
+ROOT_PASSWORD='1'
+SSH_PORT='22'
+PATH_TO_SCRIPTS="Scripts/"
 PATH_TO_LOCAL_REPO_FOLDER="/home/masci/Desktop/LocalRepo"
 PATH_TO_REMOTE_REPO_FOLDER="/root/Desktop/LocalRepo"
 BACKUPS_FOLDER="/home/masci/Desktop/bacdeb"
@@ -33,7 +33,9 @@ def getSshSyntax(ip,scriptFileName):
         #SSH_Syntax = ['sshpass', '-p', ROOT_PASSWORD, 'ssh', '-p', SSH_PORT, USERNAME+'@'+ip, "'bash -s'" ,'<']
         SSH_Syntax = ['sshpass', '-p', ROOT_PASSWORD, 'ssh', '-p', SSH_PORT, USERNAME+'@'+ip,commands]
     else:
-        SSH_Syntax = ['c:\\Windows\\System32\\cmd.exe','/c ', 'plink', '-P' ,SSH_PORT,  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD,commands ]
+        SSH_Syntax = [ 'plink','-batch', '-P' ,SSH_PORT,  USERNAME+'@'+ip, '-pw', ROOT_PASSWORD,commands ]
+
+    print(SSH_Syntax)
     return SSH_Syntax
 
 def getOsType():
@@ -51,10 +53,8 @@ def getDiskUsage(ip):
     out = subprocess.check_output(getSshSyntax(ip,'diskusage.sh'))
     out = str(out)
     out = re.findall(r'([0-9]*\.[0-9]+|[0-9]+)', out)
-    print("Taille : " , out[1])
-    print("Used : ", out[2])
-    print( out[4], "%")
-    print(getSshSyntax(ip,'diskusage.sh'))
+    
+    return (out[2],out[4])
 
 
 def getRamUsage(ip):
@@ -62,7 +62,7 @@ def getRamUsage(ip):
     out = subprocess.check_output(getSshSyntax(ip,'ramusage.sh'))
     out = str(out)
     out = re.findall(r'([0-9]*\.[0-9]+|[0-9]+)', out)
-    print("Dispo : " , out[2])
+    return out[1]
 
 
 def getCpuUsage(ip):
@@ -199,11 +199,7 @@ def changeConf(rootUsername,rootPass,sshPort): #change les configuration de l'ap
 #INTERNET_STATUS = checkConnexion("127.0.0.1")
 #newBackup('127.0.0.1','bactroi')
 #restoreFromBackup('127.0.0.1','bacun')
-changeConf(USERNAME,ROOT_PASSWORD,SSH_PORT)
-start()
 
-#print(INTERNET_STATUS)
-getDiskUsage("127.0.0.1")
 #getRamUsage()
 #getCpuUsage()
 
