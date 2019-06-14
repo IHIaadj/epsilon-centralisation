@@ -34,7 +34,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center"  href="index.html">
         <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+          <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 20rem;" src="{% static 'img/logoe.png' %}" alt="">
         </div>
         <div class="sidebar-brand-text mx-3">Epsilon</div>
       </a>
@@ -59,10 +59,40 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="modal" data-target="#exampleModal" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
           <span>Ajouter un Terminal </span>
         </a>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Ajout d'un terminal</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                          <label for="recipient-name" class="col-form-label">Label:</label>
+                          <input type="text" class="form-control" id="recipient-name">
+                          <label for="recipient-name" class="col-form-label">Adresse IP:</label>
+                          <input type="text" class="form-control" id="recipient-name">
+                          <label for="recipient-name" class="col-form-label">Root Password:</label>
+                          <input type="password" class="form-control" id="recipient-name">
+                        </div>
+                        
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Ajouter</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <!--
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -76,10 +106,58 @@
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link collapsed" href="#" data-toggle="modal" data-target="#exampleModal2"  aria-expanded="true" aria-controls="collapseUtilities">
           <i class="fas fa-fw fa-wrench"></i>
           <span>Installer un paquet </span>
         </a>
+
+        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Installer un paquet</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Selectionner un paquet à installer</label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>leafpad</option>
+                              <option>java</option>
+                              <option>gcc</option>
+                            </select>
+                          </div>
+                        <div class="form-group" style="margin-left:50px">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Installer sur tous les terminaux
+                            </label>
+                            <br>
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Installer sur un groupe de terminaux 
+                            </label>
+                          
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Selectionner le groupe : </label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                              <option>Salle MC</option>
+                              <option>Salle 1</option> 
+                            </select>
+                          </div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Installer</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <!-- 
       <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -163,17 +241,6 @@
             <i class="fa fa-bars"></i>
           </button>
 
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -203,7 +270,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
-                <span class="badge badge-danger badge-counter">3+</span>
+                <span class="badge badge-danger badge-counter">0</span>
               </a>
               <!-- Dropdown - Alerts -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
@@ -260,7 +327,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>Générer un rapport</a>
           </div>
 
           
@@ -287,7 +354,7 @@
                   </div>
                 </div>
                 <!-- Card Body -->
-                <div class="card-body"id="graphContainer" >
+                <div class="card-body" id="graphContainer" height="300">
                   
                 </div>
                 <script>
@@ -309,6 +376,10 @@
                         shape: 'image',
                         image: "{% static 'img/pc.png' %}",
                         label: 'PC1',
+                        ip : '192.168.43.53', 
+                        ram : '{{ram.0}}',
+                        disk: '{{disk.0.0}}', 
+                        diskusage : '{{disk.0.1}}', 
                         widthMin: 20,
                         widthMax: 20
                     });
@@ -317,6 +388,10 @@
                         shape: 'image',
                         image: "{% static 'img/pc.png' %}",
                         label: 'PC2',
+                        ip : '192.168.43.53',
+                        ram : '{{ram.1}}',
+                        disk: '{{disk.1.0}}', 
+                        diskusage : '{{disk.1.1}}', 
                         widthMin: 20,
                         widthMax: 20
                     });
@@ -342,6 +417,9 @@
                     var options = {
                         smoothCurves: false,
                         stabilize: false,
+                        height: 300, 
+                        interaction:{hover:true},
+                      
                         nodes: {
                             shape: 'image',
                             radius: 24,
@@ -354,6 +432,16 @@
                         }
                     };
                     network = new vis.Network(container, data, options);
+                    network.on("click", function (params) {
+                        params.event = "[original event]";
+                        document.getElementById('label').innerHTML = nodes[this.getNodeAt(params.pointer.DOM)-1].label;
+                        document.getElementById('ip').innerHTML = nodes[this.getNodeAt(params.pointer.DOM)-1].ip;
+                        document.getElementById('ram').innerHTML = nodes[this.getNodeAt(params.pointer.DOM)-1].ram+"M";
+                        document.getElementById('disk').innerHTML = nodes[this.getNodeAt(params.pointer.DOM)-1].disk+"G = "+nodes[this.getNodeAt(params.pointer.DOM)-1].diskusage+"%";
+                        document.getElementById("diskbar").style.width = nodes[this.getNodeAt(params.pointer.DOM)-1].diskusage+"%" ;
+                        document.getElementById("rambar").style.width = (nodes[this.getNodeAt(params.pointer.DOM)-1].ram/2000) *100 + "%";
+                        console.log('click event, getNodeAt returns: ' + nodes[this.getNodeAt(params.pointer.DOM)-1].label);
+                    });
                   </script>
               </div>
             </div>
@@ -379,18 +467,19 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                
-                    <h4 class="small font-weight-bold">RAM <span class="float-right">20%</span></h4>
+                    <h4 class="small font-weight-bold">Label <span class="float-right" id ="label"></span></h4>
+                    <h4 class="small font-weight-bold">IP <span class="float-right" id ="ip">0.0.0.0</span></h4>
+                    <h4 class="small font-weight-bold">RAM <span class="float-right" id ="ram">0%</span></h4>
                     <div class="progress mb-4">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar bg-danger"  id="rambar" role="progressbar" style="width: 0%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Disque <span class="float-right">40%</span></h4>
+                    <h4 class="small font-weight-bold">Disque <span class="float-right" id ="disk">0%</span></h4>
                     <div class="progress mb-4">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar bg-warning" id ="diskbar" role="progressbar" style="width: 0%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <h4 class="small font-weight-bold">Connected <span class="float-right"></span></h4>
+                    <h4 class="small font-weight-bold">Disconnected <span class="float-right"></span></h4>
                     <div class="progress mb-4">
-                      <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   
              
@@ -411,11 +500,12 @@
                     <h6 class="m-0 font-weight-bold text-primary">Comment l'utiliser ?</h6>
                   </div>
                   <div class="card-body">
+                    
+                    <p>Avec cette application de centralisation, vous pourrez gérer vos terminaux <a target="_blank" rel="nofollow" href="#">Epsilon</a> à distance. <br> Les étapes d'utilisation sont très simples, une fois connecté, ajouter les terminaux un à un (Une option discovery sera rajouté plus tard) en suivant la procedure dans le menu "Ajouter Terminal".<br> Vous pourrez alors consulter l'état de chaque terminal à distance et être prévenu d'éventuels alertes sur chacun d'eux.<br> Vous pourrez à tout instant installer un nouveau paquets sur tous les terminaux grâce au menu "Installer un paquet"  </p>
+                    <a target="_blank" rel="nofollow" href="#">Nous sommes à votre écoute pour répondre à toutes vos questions &rarr;</a>
                     <div class="text-center">
-                      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
+                      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 15rem;" src="{% static 'img/logo.png' %}" alt="">
                     </div>
-                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
                   </div>
                 </div>
 
@@ -433,9 +523,39 @@
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Caractéristiques de la distribution </h6>
                 </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
+                <div class="card-body" style="
+                background-repeat: no-repeat;
+                background-size: 500px; 
+                background-position: right; background-image: url('{% static 'img/epsilon.gif' %}') ">
+                  <ul class="list-group" style="width:70%">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Type d'os
+                        <span class="badge badge-primary badge-pill">Linux</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Basé sur 
+                        <span class="badge badge-primary badge-pill">Debian</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Architecture 
+                        <span class="badge badge-primary badge-pill">x86, x64, ARM</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Dernière sortie 
+                          <span class="badge badge-primary badge-pill">11-06-2019 (v1.2)</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            RAM au démarrage
+                            <span class="badge badge-primary badge-pill">48M</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                              Taille sur disque
+                              <span class="badge badge-primary badge-pill">1.2G</span>
+                            </li>
+                    </ul>
+                    <br>
+                    <br>
+                    <br>
                 </div>
               </div>
 
@@ -452,7 +572,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
+           
           </div>
         </div>
       </footer>
@@ -469,24 +589,7 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="{% static 'vendor/jquery/jquery.min.js' %}" ></script>
